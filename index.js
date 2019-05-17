@@ -1,25 +1,81 @@
 document.addEventListener('DOMContentLoaded', function() {
-  fetchMonsters()
-})
+  let pageNum = 1
+    fetchMonsters(pageNum)
 
-function fetchMonsters() {
-  return fetch('http://localhost:3000/monsters/?_limit=50&_page=1')
+  let forwardButton = document.getElementById("forward")
+  let backButton = document.getElementById("back")
+
+  forwardButton.addEventListener('click', function() {
+    pageNum++
+    fetchMonsters(pageNum)
+  })
+
+  backButton.addEventListener('click', function() {
+    pageNum--
+    fetchMonsters(pageNum)
+  })
+
+});
+
+function fetchMonsters(num) {
+    console.log(num)
+  return fetch(`http://localhost:3000/monsters/?_limit=50&_page=${num}`)
     .then(resp => resp.json())
     .then(json => renderMonsters(json));
   }
 
+// function renderCard(){
+// // for loop for each monster data. Call in render functions
+//
+// let h2 = document.createElement('h2')
+// let h3 = document.createElement('h3')
+// let h4 = document.createElement('h4')
+// h2.innerText = object.name
+// h3.innerText = object.age
+// h4.innerText = object.description
+// let monsterCard = document.createElement('div')
+// monsterCard.id = object.id
+// monsterCard.appendChild(h2),
+// monsterCard.appendChild(h3),
+// monsterCard.appendChild(h4)
+// console.log(object);
+//
+//
+//
+// let h2 = document.createElement('h2')
+// let h3 = document.createElement('h3')
+// let h4 = document.createElement('h4')
+// h2.innerText = monster.name
+// h3.innerText = monster.age
+// h4.innerText = monster.description
+// let monsterCard = document.createElement('div')
+// monsterCard.id = monster.id
+// monsterCard.appendChild(h2),
+// monsterCard.appendChild(h3),
+// monsterCard.appendChild(h4)
+// monsterContainer.appendChild(monsterCard)
+//
+//
+// }
 
-function renderMonsters(json) {
+function renderMonsters(json){
+  let monsterContainer = document.getElementById('monster-container')
+  while (monsterContainer.firstChild) {
+    monsterContainer.removeChild(monsterContainer.firstChild)
+  }
   json.forEach(monster => {
     let h2 = document.createElement('h2')
     let h3 = document.createElement('h3')
     let h4 = document.createElement('h4')
-    h2.innerHTML = `<h2>${monster.name}</h2>`
-    h3.innerHTML = `<h3>Age: ${monster.age}</h3>`
-    h4.innerHTML = `<h4>${monster.description}</h4>`
-    document.body.appendChild(h2),
-    document.body.appendChild(h3),
-    document.body.appendChild(h4)
+    h2.innerText = monster.name
+    h3.innerText = monster.age
+    h4.innerText = monster.description
+    let monsterCard = document.createElement('div')
+    monsterCard.id = monster.id
+    monsterCard.appendChild(h2),
+    monsterCard.appendChild(h3),
+    monsterCard.appendChild(h4)
+    monsterContainer.appendChild(monsterCard)
   })
 }
 
@@ -54,13 +110,14 @@ function handleCreateMonster(){
       let h2 = document.createElement('h2')
       let h3 = document.createElement('h3')
       let h4 = document.createElement('h4')
-      h2.innerHTML = `<h2>${newMonster.name}</h2>`
-      h3.innerHTML = `<h3>Age: ${newMonster.age}</h3>`
-      h4.innerHTML = `<h4>${newMonster.description}</h4>`
-      document.body.appendChild(h2),
-      document.body.appendChild(h3),
-      document.body.appendChild(h4)
-
+      h2.innerText = object.name
+      h3.innerText = object.age
+      h4.innerText = object.description
+      let monsterCard = document.createElement('div')
+      monsterCard.id = object.id
+      monsterCard.appendChild(h2),
+      monsterCard.appendChild(h3),
+      monsterCard.appendChild(h4)
       console.log(object);
-    });
+    })
 }
